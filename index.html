@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة التخييم</title>
+    <title>صفحة التقييم</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,7 +78,7 @@
     formData.append("suggestion", suggestion);
     formData.append("timestamp", timestamp);
 
-    fetch("YOUR_GOOGLE_SCRIPT_URL", {
+    fetch("https://script.google.com/macros/s/AKfycbyUiIAEOG9fHPkkWedROUGMDr43tkTGhWKOwItEE5iHh_PaEsE7vmJRBZp9ScRKxS5H/exec", {
         method: "POST",
         body: formData
     })
