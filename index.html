@@ -1,145 +1,155 @@
 <!DOCTYPE html>
 <html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة التقييم</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحة التخييم</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            direction: rtl;
-            background-color: #f4f4f4;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            margin: 50px auto;
-            width: 350px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input, textarea, button {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .stars {
-            display: flex;
-            justify-content: center;
-            direction: ltr;
-        }
-        .stars span {
-            font-size: 25px;
-            cursor: pointer;
-            color: gray;
-        }
-        .stars span.active {
-            color: gold;
-        }
-        .table-container {
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 8px;
-            text-align: center;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        direction: rtl;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background: #fff;
+        padding: 20px;
+        margin: 50px auto;
+        width: 350px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      input,
+      textarea,
+      button {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .stars {
+        display: flex;
+        justify-content: center;
+        direction: ltr;
+      }
+      .stars span {
+        font-size: 25px;
+        cursor: pointer;
+        color: gray;
+      }
+      .stars span.active {
+        color: gold;
+      }
+      .table-container {
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ccc;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h2>تقييمك يهمنا</h2>
-        <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required />
+      <h2>تقييمك يهمنا</h2>
+      <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required />
 
-        <div class="stars">
-            <span data-value="1">★</span>
-            <span data-value="2">★</span>
-            <span data-value="3">★</span>
-            <span data-value="4">★</span>
-            <span data-value="5">★</span>
-        </div>
+      <div class="stars">
+        <span data-value="1">★</span>
+        <span data-value="2">★</span>
+        <span data-value="3">★</span>
+        <span data-value="4">★</span>
+        <span data-value="5">★</span>
+      </div>
 
-        <textarea id="suggestion" placeholder="أدخل اقتراحك"></textarea>
+      <textarea id="suggestion" placeholder="أدخل اقتراحك"></textarea>
 
-        <button onclick="submitReview()">إرسال التقييم</button>
+      <button onclick="submitReview()">إرسال التقييم</button>
 
-        <div class="table-container">
-            <h3>سجل التقييمات</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>رقم الهاتف</th>
-                        <th>التقييم</th>
-                        <th>الاقتراح</th>
-                        <th>النقاط</th>
-                    </tr>
-                </thead>
-                <tbody id="reviewTableBody"></tbody>
-            </table>
-        </div>
+      <div class="table-container">
+        <h3>سجل التقييمات</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>رقم الهاتف</th>
+              <th>التقييم</th>
+              <th>الاقتراح</th>
+              <th>النقاط</th>
+            </tr>
+          </thead>
+          <tbody id="reviewTableBody"></tbody>
+        </table>
+      </div>
     </div>
 
     <script>
-        let selectedRating = 0;
+      let selectedRating = 0;
 
-        // تحديد النجوم المختارة
-        document.querySelectorAll(".stars span").forEach(star => {
-            star.addEventListener("click", function () {
-                selectedRating = this.getAttribute("data-value");
-                document.querySelectorAll(".stars span").forEach(s => s.classList.remove("active"));
-                for (let i = 0; i < selectedRating; i++) {
-                    document.querySelectorAll(".stars span")[i].classList.add("active");
-                }
-            });
+      document.querySelectorAll(".stars span").forEach((star) => {
+        star.addEventListener("click", function () {
+          selectedRating = this.getAttribute("data-value");
+          document
+            .querySelectorAll(".stars span")
+            .forEach((s) => s.classList.remove("active"));
+          for (let i = 0; i < selectedRating; i++) {
+            document.querySelectorAll(".stars span")[i].classList.add("active");
+          }
         });
+      });
 
-        function submitReview() {
-            let phone = document.getElementById("phone").value;
-            let suggestion = document.getElementById("suggestion").value;
+      function submitReview() {
+        let phone = document.getElementById("phone").value;
+        let suggestion = document.getElementById("suggestion").value;
 
-            if (!phone || selectedRating == 0) {
-                alert("يرجى إدخال رقم الهاتف واختيار التقييم.");
-                return;
-            }
-
-            let points = 5; // النقاط التي يحصل عليها المستخدم
-
-            let formData = {
-                phone: phone,
-                rating: selectedRating,
-                suggestion: suggestion,
-                points: points
-            };
-
-            fetch("https://script.google.com/macros/s/AKfycbzj_-t1uTV42E9Q-KSxD19d_Qjt-IkRy5HLG05WZIVEw5jv7RsaWr6979oT4u0NK1KSZQ/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(responseData => {
-                if (responseData.status === "error") {
-                    alert(responseData.message); // رسالة الخطأ عند التقييم المتكرر
-                } else if (responseData.status === "success") {
-                    alert(responseData.message);
-                    document.getElementById("phone").value = "";
-                    document.getElementById("suggestion").value = "";
-                    selectedRating = 0;
-                    document.querySelectorAll(".stars span").forEach(s => s.classList.remove("active"));
-                }
-            })
-            .catch(error => console.log("Error:", error));
+        if (!phone || selectedRating == 0) {
+          alert("يرجى إدخال رقم الهاتف واختيار التقييم.");
+          return;
         }
+
+        let points = 5; // النقاط التي يحصل عليها المستخدم
+
+        let formData = {
+          phone: phone,
+          rating: selectedRating,
+          suggestion: suggestion,
+          points: points,
+        };
+
+        fetch(
+          "https://script.google.com/macros/s/AKfycbzj_-t1uTV42E9Q-KSxD19d_Qjt-IkRy5HLG05WZIVEw5jv7RsaWr6979oT4u0NK1KSZQ/exec",
+          {
+            // استبدل بـ URL الذي حصلت عليه من Google Apps Script
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        )
+          .then(() => {
+            alert("تم إرسال التقييم بنجاح!");
+            document.getElementById("phone").value = "";
+            document.getElementById("suggestion").value = "";
+            selectedRating = 0;
+            document
+              .querySelectorAll(".stars span")
+              .forEach((s) => s.classList.remove("active"));
+          })
+          .catch((error) => console.log("Error:", error));
+      }
     </script>
-</body>
+  </body>
 </html>
