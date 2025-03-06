@@ -1,155 +1,134 @@
 <!DOCTYPE html>
-<html lang="ar">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة التقييم</title>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحتي مع جداول جوجل</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        direction: rtl;
-        background-color: #f4f4f4;
-      }
-      .container {
-        background: #fff;
-        padding: 20px;
-        margin: 50px auto;
-        width: 350px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      input,
-      textarea,
-      button {
-        width: 100%;
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-      }
-      .stars {
-        display: flex;
-        justify-content: center;
-        direction: ltr;
-      }
-      .stars span {
-        font-size: 25px;
-        cursor: pointer;
-        color: gray;
-      }
-      .stars span.active {
-        color: gold;
-      }
-      .table-container {
-        margin-top: 20px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-      }
-      table,
-      th,
-      td {
-        border: 1px solid #ccc;
-      }
-      th,
-      td {
-        padding: 8px;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h2>تقييمك يهمنا</h2>
-      <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required />
-
-      <div class="stars">
-        <span data-value="1">★</span>
-        <span data-value="2">★</span>
-        <span data-value="3">★</span>
-        <span data-value="4">★</span>
-        <span data-value="5">★</span>
-      </div>
-
-      <textarea id="suggestion" placeholder="أدخل اقتراحك"></textarea>
-
-      <button onclick="submitReview()">إرسال التقييم</button>
-
-      <div class="table-container">
-        <h3>سجل التقييمات</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>رقم الهاتف</th>
-              <th>التقييم</th>
-              <th>الاقتراح</th>
-              <th>النقاط</th>
-            </tr>
-          </thead>
-          <tbody id="reviewTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <script>
-      let selectedRating = 0;
-
-      document.querySelectorAll(".stars span").forEach((star) => {
-        star.addEventListener("click", function () {
-          selectedRating = this.getAttribute("data-value");
-          document
-            .querySelectorAll(".stars span")
-            .forEach((s) => s.classList.remove("active"));
-          for (let i = 0; i < selectedRating; i++) {
-            document.querySelectorAll(".stars span")[i].classList.add("active");
-          }
-        });
-      });
-
-      function submitReview() {
-        let phone = document.getElementById("phone").value;
-        let suggestion = document.getElementById("suggestion").value;
-
-        if (!phone || selectedRating == 0) {
-          alert("يرجى إدخال رقم الهاتف واختيار التقييم.");
-          return;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 20px;
         }
 
-        let points = 5; // النقاط التي يحصل عليها المستخدم
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+        }
 
-        let formData = {
-          phone: phone,
-          rating: selectedRating,
-          suggestion: suggestion,
-          points: points,
-        };
+        main {
+            margin: 20px 0;
+        }
 
-        fetch(
-          "https://script.google.com/macros/s/AKfycby8saERwbtzH-ZO1otLjBGuEGh_koaZML44PZQbfLbAPfY9ANLgStG-f3noNKuwnjm-4A/exec",
-          {
-            // استبدل بـ URL الذي حصلت عليه من Google Apps Script
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        )
-          .then(() => {
-            alert("تم إرسال التقييم بنجاح!");
-            document.getElementById("phone").value = "";
-            document.getElementById("suggestion").value = "";
-            selectedRating = 0;
-            document
-              .querySelectorAll(".stars span")
-              .forEach((s) => s.classList.remove("active"));
-          })
-          .catch((error) => console.log("Error:", error));
-      }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>مرحبًا بك في صفحتي!</h1>
+    </header>
+
+    <main>
+        <p id="greeting">هذه صفحة ويب بسيطة.</p>
+        <button onclick="changeGreeting()">انقر هنا</button>
+
+        <h2>بيانات من جدول جوجل</h2>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>العمر</th>
+                    <th>البلد</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- البيانات ستظهر هنا -->
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>حقوق النشر &copy; 2023</p>
+    </footer>
+
+    <script>
+        // دالة لتغيير النص
+        function changeGreeting() {
+            const greetingElement = document.getElementById("greeting");
+            greetingElement.textContent = "لقد قمت بالنقر على الزر!";
+        }
+
+        // دالة لجلب البيانات من جدول جوجل
+        async function fetchDataFromGoogleSheet() {
+            const sheetId = "YOUR_SHEET_ID"; // استبدل بمعرف جدول جوجل الخاص بك
+            const apiKey = "YOUR_API_KEY"; // استبدل بمفتاح API الخاص بك
+            const range = "Sheet1!A1:C10"; // النطاق الذي تريد جلب البيانات منه
+
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayData(data.values);
+            } catch (error) {
+                console.error("حدث خطأ أثناء جلب البيانات:", error);
+            }
+        }
+
+        // دالة لعرض البيانات في الجدول
+        function displayData(data) {
+            const tableBody = document.querySelector("#data-table tbody");
+            tableBody.innerHTML = ""; // مسح المحتوى القديم
+
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                row.forEach(cell => {
+                    const td = document.createElement("td");
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // جلب البيانات عند تحميل الصفحة
+        window.onload = fetchDataFromGoogleSheet;
     </script>
-  </body>
+</body>
 </html>
