@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة التخييم</title>
+    <title>صفحة التقييم</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -87,7 +87,6 @@
               <th>التقييم</th>
               <th>الاقتراح</th>
               <th>النقاط</th>
-              <th>التاريخ</th>
             </tr>
           </thead>
           <tbody id="reviewTableBody"></tbody>
@@ -131,7 +130,9 @@
         fetch(
           "https://script.google.com/macros/s/AKfycbzj_-t1uTV42E9Q-KSxD19d_Qjt-IkRy5HLG05WZIVEw5jv7RsaWr6979oT4u0NK1KSZQ/exec",
           {
+            // استبدل بـ URL الذي حصلت عليه من Google Apps Script
             method: "POST",
+            mode: "no-cors",
             headers: {
               "Content-Type": "application/json",
             },
