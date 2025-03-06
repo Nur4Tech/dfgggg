@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة التقييم</title>
+    <title>صفحة التخييم</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,10 +62,10 @@
             });
         });
 
-        function submitFeedback() {
+       function submitFeedback() {
     const phone = document.getElementById('phone').value;
     const suggestion = document.getElementById('suggestion').value;
-    const timestamp = new Date().toISOString(); // حفظ التوقيت بتنسيق UTC
+    const timestamp = new Date().toISOString();
 
     if (!phone || selectedRating === 0) {
         alert("يرجى إدخال رقم الهاتف واختيار التقييم");
@@ -84,8 +84,8 @@
     })
     .then(response => response.text())
     .then(data => {
-        alert(data); // يعرض إما "تم الحفظ بنجاح" أو "تم التقييم بالفعل اليوم!"
-        if (data === "تم الحفظ بنجاح") {
+        alert(data); // سيعرض إما "✅ تم الحفظ بنجاح!" أو "⚠️ تم التقييم بالفعل اليوم!"
+        if (data.includes("تم الحفظ")) {
             document.getElementById('phone').value = "";
             document.getElementById('suggestion').value = "";
             document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
@@ -94,6 +94,7 @@
     })
     .catch(error => console.error("خطأ:", error));
 }
+
 
     </script>
 
