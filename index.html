@@ -95,6 +95,20 @@
     </div>
 
     <script>
+      let selectedRating = 0;
+
+      document.querySelectorAll(".stars span").forEach((star) => {
+        star.addEventListener("click", function () {
+          selectedRating = this.getAttribute("data-value");
+          document
+            .querySelectorAll(".stars span")
+            .forEach((s) => s.classList.remove("active"));
+          for (let i = 0; i < selectedRating; i++) {
+            document.querySelectorAll(".stars span")[i].classList.add("active");
+          }
+        });
+      });
+
       function submitReview() {
         let phone = document.getElementById("phone").value;
         let suggestion = document.getElementById("suggestion").value;
@@ -116,26 +130,23 @@
         fetch(
           "https://script.google.com/macros/s/AKfycbzj_-t1uTV42E9Q-KSxD19d_Qjt-IkRy5HLG05WZIVEw5jv7RsaWr6979oT4u0NK1KSZQ/exec",
           {
+            // استبدل بـ URL الذي حصلت عليه من Google Apps Script
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify(formData),
           }
         )
-          .then((response) => response.text())
-          .then((responseText) => {
-            if (responseText === "ALREADY_SUBMITTED") {
-              alert("لقد قمت بتقييم اليوم بالفعل! الرجاء المحاولة غداً.");
-            } else if (responseText === "SUCCESS") {
-              alert("تم إرسال التقييم بنجاح!");
-              document.getElementById("phone").value = "";
-              document.getElementById("suggestion").value = "";
-              selectedRating = 0;
-              document
-                .querySelectorAll(".stars span")
-                .forEach((s) => s.classList.remove("active"));
-            } else {
-              alert("حدث خطأ! الرجاء المحاولة لاحقًا.");
-            }
+          .then(() => {
+            alert("تم إرسال التقييم بنجاح!");
+            document.getElementById("phone").value = "";
+            document.getElementById("suggestion").value = "";
+            selectedRating = 0;
+            document
+              .querySelectorAll(".stars span")
+              .forEach((s) => s.classList.remove("active"));
           })
           .catch((error) => console.log("Error:", error));
       }
