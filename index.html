@@ -1,134 +1,28 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحتي مع جداول2 جوجل</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-        }
-
-        main {
-            margin: 20px 0;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>صفحة التخييم</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>مرحبًا بك في صفحتي!</h1>
-    </header>
-
-    <main>
-        <p id="greeting">هذه صفحة ويب بسيطة.</p>
-        <button onclick="changeGreeting()">انقر هنا</button>
-
-        <h2>بيانات من جدول جوجل</h2>
-        <table id="data-table">
-            <thead>
-                <tr>
-                    <th>الاسم</th>
-                    <th>العمر</th>
-                    <th>البلد</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- البيانات ستظهر هنا -->
-            </tbody>
-        </table>
-    </main>
-
-    <footer>
-        <p>حقوق النشر &copy; 2023</p>
-    </footer>
-
-    <script>
-        // دالة لتغيير النص
-        function changeGreeting() {
-            const greetingElement = document.getElementById("greeting");
-            greetingElement.textContent = "لقد قمت بالنقر على الزر!";
-        }
-
-        // دالة لجلب البيانات من جدول جوجل
-        async function fetchDataFromGoogleSheet() {
-            const sheetId = "1AHaPcX1Gj89uVTTGLXH-4QHq7nHNln_Fo7J92-8xgow"; // استبدل بمعرف جدول جوجل الخاص بك
-            const apiKey = "AIzaSyDV8IHY2loSF0GgqQ_aAA7paOa-9T2Q3yM"; // استبدل بمفتاح API الخاص بك
-            const range = "Sheet1!A1:C10"; // النطاق الذي تريد جلب البيانات منه
-
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                displayData(data.values);
-            } catch (error) {
-                console.error("حدث خطأ أثناء جلب البيانات:", error);
-            }
-        }
-
-        // دالة لعرض البيانات في الجدول
-        function displayData(data) {
-            const tableBody = document.querySelector("#data-table tbody");
-            tableBody.innerHTML = ""; // مسح المحتوى القديم
-
-            data.forEach(row => {
-                const tr = document.createElement("tr");
-                row.forEach(cell => {
-                    const td = document.createElement("td");
-                    td.textContent = cell;
-                    tr.appendChild(td);
-                });
-                tableBody.appendChild(tr);
-            });
-        }
-
-        // جلب البيانات عند تحميل الصفحة
-        window.onload = fetchDataFromGoogleSheet;
-    </script>
+  <div class="container">
+    <h2>صفحة التقييم</h2>
+    <form id="evaluationForm">
+      <label for="phone">رقم الهاتف:</label>
+      <input type="text" id="phone" name="phone" required>
+      
+      <label for="rating">التقييم (1-5):</label>
+      <input type="number" id="rating" name="rating" min="1" max="5" required>
+      
+      <label for="suggestion">الاقتراح:</label>
+      <textarea id="suggestion" name="suggestion" rows="4" placeholder="أضف اقتراحك هنا..."></textarea>
+      
+      <input type="button" value="إرسال" onclick="submitForm()">
+    </form>
+    <div id="result" class="result"></div>
+  </div>
+  
+  <script src="script.js"></script>
 </body>
 </html>
