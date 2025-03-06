@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحتي مع جداول جوجل</title>
+    <title>صفحتي مع جداول2 جوجل</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -96,8 +96,8 @@
 
         // دالة لجلب البيانات من جدول جوجل
         async function fetchDataFromGoogleSheet() {
-            const sheetId = "YOUR_SHEET_ID"; // استبدل بمعرف جدول جوجل الخاص بك
-            const apiKey = "YOUR_API_KEY"; // استبدل بمفتاح API الخاص بك
+            const sheetId = "1AHaPcX1Gj89uVTTGLXH-4QHq7nHNln_Fo7J92-8xgow"; // استبدل بمعرف جدول جوجل الخاص بك
+            const apiKey = "AIzaSyDV8IHY2loSF0GgqQ_aAA7paOa-9T2Q3yM"; // استبدل بمفتاح API الخاص بك
             const range = "Sheet1!A1:C10"; // النطاق الذي تريد جلب البيانات منه
 
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
