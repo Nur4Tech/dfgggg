@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة الخقييم</title>
+    <title>صفحة الغييم</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,26 +62,22 @@
             });
         });
 
-     function submitFeedback() {
+   function submitFeedback() {
     const phone = document.getElementById('phone').value;
     const suggestion = document.getElementById('suggestion').value;
-    const timestamp = new Date().toISOString();
-
+    
     if (!phone || selectedRating === 0) {
         alert("❗ يرجى إدخال رقم الهاتف واختيار التقييم");
         return;
     }
 
-    const formData = new FormData();
-    formData.append("phone", phone);
-    formData.append("rating", selectedRating);
-    formData.append("suggestion", suggestion);
-    formData.append("timestamp", timestamp);
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxGyznurHSMNtzzNEN50szWxKbD8LDo6WmNtRPKA9r0zfjMwN3ePTc3Ovgk98SarExx/exec" + 
+                      "?phone=" + encodeURIComponent(phone) +
+                      "&rating=" + encodeURIComponent(selectedRating) +
+                      "&suggestion=" + encodeURIComponent(suggestion);
 
-    fetch("https://script.google.com/macros/s/AKfycbxGyznurHSMNtzzNEN50szWxKbD8LDo6WmNtRPKA9r0zfjMwN3ePTc3Ovgk98SarExx/exec", {
-        method: "POST",
-        body: formData,
-        mode: "cors" // إضافة دعم CORS
+    fetch(scriptURL, {
+        method: "GET",
     })
     .then(response => response.text())
     .then(data => {
