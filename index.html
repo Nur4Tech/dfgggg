@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة الخخقييم</title>
+    <title>صفحة الججييم</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -111,46 +111,53 @@
       });
 
       function submitReview() {
-        let phone = document.getElementById("phone").value;
-        let suggestion = document.getElementById("suggestion").value;
+    let phone = document.getElementById("phone").value;
+    let suggestion = document.getElementById("suggestion").value;
 
-        if (!phone || selectedRating == 0) {
-          alert("يرجى إدخال رقم الهاتف واختيار التقييم.");
-          return;
-        }
+    if (!phone || selectedRating == 0) {
+        alert("❗ يرجى إدخال رقم الهاتف واختيار التقييم.");
+        return;
+    }
 
-        let points = 5; // النقاط التي يحصل عليها المستخدم
+    let points = 5; // النقاط التي يحصل عليها المستخدم
 
-        let formData = {
-          phone: phone,
-          rating: selectedRating,
-          suggestion: suggestion,
-          points: points,
-        };
+    let formData = {
+        phone: phone,
+        rating: selectedRating,
+        suggestion: suggestion,
+        points: points,
+    };
 
-        fetch(
-          "https://script.google.com/macros/s/AKfycbwtR5YlLuodf63JVTXG4pBknHJs3tx-F2Lwf6cDJbJSIvs2FDwwnZRR7g9NtROYkIDIoQ/exec",
-          {
-            // استبدل بـ URL الذي حصلت عليه من Google Apps Script
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        )
-          .then(() => {
-            alert("تم إرسال التقييم بنجاح!");
-            document.getElementById("phone").value = "";
-            document.getElementById("suggestion").value = "";
-            selectedRating = 0;
-            document
-              .querySelectorAll(".stars span")
-              .forEach((s) => s.classList.remove("active"));
-          })
-          .catch((error) => console.log("Error:", error));
-      }
+    fetch("https://script.google.com/macros/s/AKfycbwtR5YlLuodf63JVTXG4pBknHJs3tx-F2Lwf6cDJbJSIvs2FDwwnZRR7g9NtROYkIDIoQ/exec", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => response.json()) // تحويل الاستجابة إلى JSON
+    .then(data => {
+        alert(data.message); // عرض الرسالة للمستخدم
+
+        // إضافة التقييم إلى الجدول داخل الصفحة
+        let reviewTableBody = document.getElementById("reviewTableBody");
+        let newRow = reviewTableBody.insertRow();
+        newRow.insertCell(0).innerText = phone;
+        newRow.insertCell(1).innerText = selectedRating;
+        newRow.insertCell(2).innerText = suggestion;
+        newRow.insertCell(3).innerText = points;
+        newRow.insertCell(4).innerText = data.date; // إضافة التاريخ المسترجع من Google Apps Script
+
+        // إعادة تعيين القيم
+        document.getElementById("phone").value = "";
+        document.getElementById("suggestion").value = "";
+        selectedRating = 0;
+        document.querySelectorAll(".stars span").forEach(s => s.classList.remove("active"));
+    })
+    .catch(error => console.log("⚠️ خطأ:", error));
+}
+
     </script>
   </body>
 </html>
