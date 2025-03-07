@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج التقييم</title>
+    <title>نموذج التقللللللللللللللللم</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,21 +69,21 @@
                 return;
             }
 
-            fetch('https://script.google.com/macros/s/AKfycbzCG4ToTn9oqFusOde4Qj9t9lnoHS2WbhotsFwauCv4kBnSrtJFp72-MhOLssD1ufgSXg/exec', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone, rating, suggestion })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert("تم إرسال التقييم بنجاح!");
-                } else {
-                    alert("لا يمكنك التقييم أكثر من مرة يوميًا");
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            fetch('https://script.google.com/macros/s/AKfycbzEQt_S3YUlAulc8doMeo15h9m2ypNrgcwUUFQFavGvNojDxyMvA5IQkz4yeGrunTOHIw/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone, rating, suggestion })
+})
+.then(response => response.json())
+.then(data => {
+    if (data.status === 'success') {
+        alert("تم إرسال التقييم بنجاح!");
+    } else {
+        alert("لا يمكنك التقييم أكثر من مرة يوميًا");
+    }
+})
+.catch(error => console.error('Error:', error));
+
     </script>
 </body>
 </html>
