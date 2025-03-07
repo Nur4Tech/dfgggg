@@ -1,175 +1,63 @@
 <!DOCTYPE html>
 <html lang="ar">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة دددد</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة التقييم</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        direction: rtl;
-        background-color: #f4f4f4;
-      }
-      .container {
-        background: #fff;
-        padding: 20px;
-        margin: 50px auto;
-        width: 350px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      input,
-      textarea,
-      button {
-        width: 100%;
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-      }
-      .stars {
-        display: flex;
-        justify-content: center;
-        direction: ltr;
-      }
-      .stars span {
-        font-size: 25px;
-        cursor: pointer;
-        color: gray;
-      }
-      .stars span.active {
-        color: gold;
-      }
-      .table-container {
-        margin-top: 20px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-      }
-      table,
-      th,
-      td {
-        border: 1px solid #ccc;
-      }
-      th,
-      td {
-        padding: 8px;
-        text-align: center;
-      }
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        input, select, textarea, button { width: 100%; margin: 10px 0; padding: 10px; }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <h2>تقييمك يهمنا</h2>
-      <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required />
-
-      <div class="stars">
-        <span data-value="1">★</span>
-        <span data-value="2">★</span>
-        <span data-value="3">★</span>
-        <span data-value="4">★</span>
-        <span data-value="5">★</span>
-      </div>
-
-      <textarea id="suggestion" placeholder="أدخل اقتراحك"></textarea>
-
-      <button onclick="submitFeedback()">إرسال التقييم</button>
-
-      <div class="table-container">
-        <h3>سجل التقييمات</h3>
-        <table>
-          <thead>
-    <tr>
-        <th>رقم الهاتف</th>
-        <th>التقييم</th>
-        <th>الاقتراح</th>
-        <th>النقاط</th>
-        <th>التاريخ</th> <!-- تأكد من إضافة هذا العمود -->
-    </tr>
-</thead>
-<tbody id="reviewTableBody"></tbody>
-        </table>
-      </div>
+        <h2>صفحة التقييم</h2>
+        <label>رقم الهاتف:</label>
+        <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required>
+        
+        <label>التقييم:</label>
+        <select id="rating" required>
+            <option value="">اختر تقييمًا</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        
+        <label>ملاحظات:</label>
+        <textarea id="notes" placeholder="أدخل ملاحظاتك"></textarea>
+        
+        <button onclick="submitRating()">إرسال التقييم</button>
     </div>
-
+    
     <script>
-      let selectedRating = 0;
-
-      document.querySelectorAll(".stars span").forEach((star) => {
-        star.addEventListener("click", function () {
-          selectedRating = this.getAttribute("data-value");
-          document
-            .querySelectorAll(".stars span")
-            .forEach((s) => s.classList.remove("active"));
-          for (let i = 0; i < selectedRating; i++) {
-            document.querySelectorAll(".stars span")[i].classList.add("active");
-          }
-        });
-      });
-
-     function submitFeedback() {
-    const phone = document.getElementById("phone").value;
-    const rating = selectedRating; // يجب استخدام selectedRating من النجوم
-    const suggestion = document.getElementById("suggestion").value;
-    
-    if (!phone || !rating) {
-        alert("يرجى إدخال رقم الهاتف والتقييم");
-        return;
-    }
-
-    fetch('https://script.google.com/macros/s/AKfycbz14pSPDmZorQMXrwxxb5fPwsIiLLHTUc8ArZOGNWGHrSZuitR4oQBFobgAMZj2a1ZtOw/exec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, rating, suggestion })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert("✅ " + data.message); 
-            fetchReviews(); // إعادة تحميل البيانات بعد الإرسال
-        } else {
-            alert("⚠️ " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("❌ حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
-    });
-}
-
-
-    
-  function fetchReviews() {
-    fetch('https://script.google.com/macros/s/AKfycbz14pSPDmZorQMXrwxxb5fPwsIiLLHTUc8ArZOGNWGHrSZuitR4oQBFobgAMZj2a1ZtOw/exec?action=getReviews', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        let tableBody = document.getElementById("reviewTableBody");
-        tableBody.innerHTML = ""; // مسح البيانات القديمة قبل التحديث
-        data.forEach(row => {
-            let tr = document.createElement("tr");
-            row.forEach(cell => {
-                let td = document.createElement("td");
-                td.textContent = cell;
-                tr.appendChild(td);
+        function submitRating() {
+            const phone = document.getElementById('phone').value.trim();
+            const rating = document.getElementById('rating').value;
+            const notes = document.getElementById('notes').value.trim();
+            
+            if (!phone || !rating) {
+                alert("الرجاء إدخال رقم الهاتف واختيار تقييم.");
+                return;
+            }
+            
+            const data = { phone, rating, notes };
+            
+            fetch("https://script.google.com/macros/s/AKfycbxOaLJ-td8br_m76hX4REW4YrOgaGiSOPQbrChUj89Zb62zq6IwVzQ9eolcgnHgar_Bfw/exec", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+            })
+            .catch(error => {
+                console.error("Error:", error);
             });
-            tableBody.appendChild(tr);
-        });
-    })
-    .catch(error => console.error("Error fetching reviews:", error));
-}
-
-// تحميل التقييمات عند فتح الصفحة
-document.addEventListener("DOMContentLoaded", fetchReviews);
-
-
+        }
     </script>
-  </body>
+</body>
 </html>
