@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج ويم</title>
+    <title>نموذج التقييم</title>
     
     <!-- استيراد Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <style>
         body {
@@ -50,10 +49,8 @@
         <button type="submit">إرسال التقييم</button>
     </form>
 
-    <p id="message"></p>
-
     <script>
-        // 🔹 إعداد Firebase (استبدل بالمفاتيح من Firebase Console)
+        // 🔹 إعداد Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyB93ZciUCCEF7-lUIMoI0narSUabnpnrkE",
             authDomain: "test-65ba0.firebaseapp.com",
@@ -80,29 +77,31 @@
             }
 
             try {
-                // 🔹 التحقق مما إذا كان الهاتف قام بالتقييم اليوم
                 const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
                 const userRef = db.collection('feedback').doc(phone);
                 const doc = await userRef.get();
 
                 if (doc.exists && doc.data().date === today) {
-                    document.getElementById('message').textContent = "لقد قمت بالتقييم اليوم بالفعل!";
+                    alert("لقد قمت بالتقييم اليوم بالفعل!");
                     return;
                 }
 
-                // 🟢 إضافة التقييم إلى Firestore
+                // 🟢 تحديث النقاط السابقة وإضافة 5 نقاط جديدة
+                let totalPoints = doc.exists ? doc.data().points + 5 : 5;
+
                 await userRef.set({
                     phone: phone,
                     rating: parseInt(rating),
                     comments: comments,
                     date: today,
-                    points: 5
+                    points: totalPoints
                 });
 
-                document.getElementById('message').textContent = "تم إرسال التقييم بنجاح! شكراً لك.";
+                // ✅ توجيه المستخدم إلى صفحة الشكر مع تمرير رقم الهاتف
+                window.location.href = `thankyou.html?phone=${phone}`;
             } catch (error) {
                 console.error("خطأ أثناء الإرسال:", error);
-                document.getElementById('message').textContent = "حدث خطأ أثناء الإرسال.";
+                alert("حدث خطأ أثناء الإرسال.");
             }
         });
     </script>
