@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج قققق</title>
+    <title>نموذج هههههههههههه</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,7 +59,7 @@
     </form>
 
    <script>
-    function submitFeedback() {
+   function submitFeedback() {
     const phone = document.getElementById("phone").value;
     const rating = document.getElementById("rating").value;
     const suggestion = document.getElementById("suggestion").value;
@@ -69,26 +69,25 @@
         return;
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbzEQt_S3YUlAulc8doMeo15h9m2ypNrgcwUUFQFavGvNojDxyMvA5IQkz4yeGrunTOHIw/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyxU6TGwPcrhez-xBp8-Pp_hkm-Ad0nOzKcLA7cIsYOe3FCzaJ_IcJBhnbuPm_MODUKQQ/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, rating, suggestion })
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("خطأ في الاستجابة من السيرفر");
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            alert("تم إرسال التقييم بنجاح!");
+            alert(data.message);
         } else {
-            alert("لا يمكنك التقييم أكثر من مرة يوميًا");
+            alert(data.message);
         }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        console.error('Error:', error);
+        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+    });
 }
+
 
 </script>
 
