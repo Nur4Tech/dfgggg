@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج التقييم</title>
+    <title>نموذج ال[[يم</title>
+    
+    <!-- استيراد Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,6 +52,20 @@
     <p id="message"></p>
 
     <script>
+        // 🔹 إعداد Firebase (استبدل بالمفاتيح من Firebase Console)
+        const firebaseConfig = {
+            apiKey: "AIzaSyB93ZciUCCEF7-lUIMoI0narSUabnpnrkE",
+            authDomain: "test-65ba0.firebaseapp.com",
+            projectId: "test-65ba0",
+            storageBucket: "test-65ba0.firebasestorage.app",
+            messagingSenderId: "556279260023",
+            appId: "1:556279260023:web:4924762ba1d91a5fa2f772"
+        };
+
+        // 🔹 تهيئة Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         document.getElementById('feedbackForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
@@ -59,14 +78,31 @@
                 return;
             }
 
-            const response = await fetch('https://script.google.com/macros/s/AKfycbxJvxHRFc2IbmE1mBOPliA_8qek8aky4DwAHquBZKYXbaAUQUhgyHrulQ_Bq5wB_K9GyQ/exec', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone, rating, comments })
-            });
+            try {
+                // 🔹 التحقق مما إذا كان الهاتف قام بالتقييم اليوم
+                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+                const userRef = db.collection('feedback').doc(phone);
+                const doc = await userRef.get();
 
-            const result = await response.json();
-            document.getElementById('message').textContent = result.message;
+                if (doc.exists && doc.data().date === today) {
+                    document.getElementById('message').textContent = "لقد قمت بالتقييم اليوم بالفعل!";
+                    return;
+                }
+
+                // 🟢 إضافة التقييم إلى Firestore
+                await userRef.set({
+                    phone: phone,
+                    rating: parseInt(rating),
+                    comments: comments,
+                    date: today,
+                    points: 5
+                });
+
+                document.getElementById('message').textContent = "تم إرسال التقييم بنجاح! شكراً لك.";
+            } catch (error) {
+                console.error("خطأ أثناء الإرسال:", error);
+                document.getElementById('message').textContent = "حدث خطأ أثناء الإرسال.";
+            }
         });
     </script>
 
