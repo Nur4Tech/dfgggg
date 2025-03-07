@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة البببييم</title>
+    <title>صفحة القيم</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -110,47 +110,42 @@
         });
       });
 
-      function submitReview() {
-        let phone = document.getElementById("phone").value;
-        let suggestion = document.getElementById("suggestion").value;
+     function submitReview() {
+    let phone = document.getElementById("phone").value;
+    let suggestion = document.getElementById("suggestion").value;
 
-        if (!phone || selectedRating == 0) {
-          alert("يرجى إدخال رقم الهاتف واختيار التقييم.");
-          return;
-        }
+    if (!phone || selectedRating == 0) {
+        alert("يرجى إدخال رقم الهاتف واختيار التقييم.");
+        return;
+    }
 
-        let points = 5; // النقاط التي يحصل عليها المستخدم
+    let points = 5; // النقاط التي يحصل عليها المستخدم
 
-        let formData = {
-          phone: phone,
-          rating: selectedRating,
-          suggestion: suggestion,
-          points: points,
-        };
+    let formData = {
+        phone: phone,
+        rating: selectedRating,
+        suggestion: suggestion,
+        points: points
+    };
 
-        fetch(
-          "https://script.google.com/macros/s/AKfycbzVnj1g26MmMgbD9RJxI-nwyBjapGxn-6yvkrVIougDjv9hStI_4Y7fpHhzpuwCWuOBFw/exec",
-          {
-            // استبدل بـ URL الذي حصلت عليه من Google Apps Script
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        )
-          .then(() => {
-            alert("تم إرسال التقييم بنجاح!");
-            document.getElementById("phone").value = "";
-            document.getElementById("suggestion").value = "";
-            selectedRating = 0;
-            document
-              .querySelectorAll(".stars span")
-              .forEach((s) => s.classList.remove("active"));
-          })
-          .catch((error) => console.log("Error:", error));
-      }
+    fetch("https://script.google.com/macros/s/AKfycbzVnj1g26MmMgbD9RJxI-nwyBjapGxn-6yvkrVIougDjv9hStI_4Y7fpHhzpuwCWuOBFw/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        document.getElementById("phone").value = "";
+        document.getElementById("suggestion").value = "";
+        selectedRating = 0;
+        document.querySelectorAll(".stars span").forEach((s) => s.classList.remove("active"));
+    })
+    .catch((error) => console.log("Error:", error));
+}
+
     </script>
   </body>
 </html>
