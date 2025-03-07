@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة حححح</title>
+    <title>صفحة ججج</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -120,7 +120,7 @@
         return;
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbw_zieqLURglqmKG_a8ihJeEufSq11vCs7_W19Ie_ks6lpEAf3W2MacOmLGujbinkjhAQ/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbz14pSPDmZorQMXrwxxb5fPwsIiLLHTUc8ArZOGNWGHrSZuitR4oQBFobgAMZj2a1ZtOw/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, rating, suggestion })
@@ -146,7 +146,7 @@
 
     
   function fetchReviews() {
-    fetch('https://script.google.com/macros/s/AKfycbw_zieqLURglqmKG_a8ihJeEufSq11vCs7_W19Ie_ks6lpEAf3W2MacOmLGujbinkjhAQ/exec?action=getReviews')
+    fetch('https://script.google.com/macros/s/AKfycbz14pSPDmZorQMXrwxxb5fPwsIiLLHTUc8ArZOGNWGHrSZuitR4oQBFobgAMZj2a1ZtOw/exec?action=getReviews')
     .then(response => response.json())
     .then(data => {
         let tableBody = document.getElementById("reviewTableBody");
