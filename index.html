@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة الخخييم</title>
+    <title>صفحة الفيم</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -110,7 +110,7 @@
         });
       });
 
-    function submitReview() {
+function submitReview() {
     let phone = document.getElementById("phone").value;
     let suggestion = document.getElementById("suggestion").value;
 
@@ -128,7 +128,7 @@
         points: points,
     };
 
-    fetch("https://script.google.com/macros/s/AKfycbz1ud3Yy86uhkPrR5REUFP9o328Xpy124L9AGFEleNgKYhhKC5KwrV8MmKtezZyIIrqJA/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzRiEoTPHPYOsh5NDyCgTWd5793tFjQuWTGRl_Q_NYO0eMZ70tENZR_1WoTh_H3xDFmCg/exec", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -161,6 +161,7 @@
     })
     .catch(error => console.log("⚠️ خطأ:", error));
 }
+
 
     </script>
   </body>
