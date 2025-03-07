@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صفحة الفيم</title>
+    <title>صفحة الخخيم</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -128,7 +128,7 @@ function submitReview() {
         points: points,
     };
 
-    fetch("https://script.google.com/macros/s/AKfycbzRiEoTPHPYOsh5NDyCgTWd5793tFjQuWTGRl_Q_NYO0eMZ70tENZR_1WoTh_H3xDFmCg/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbz71Y1IKdriYi3Oxu31UIpoPwzs5Bk9DLywknCWg6EAkEn4ewVPnP0e33jHGHtLA7pdhQ/exec", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -138,11 +138,9 @@ function submitReview() {
     })
     .then(response => response.json()) // تحويل الاستجابة إلى JSON
     .then(data => {
-        if (data.status === "error") {
-            alert(data.message); // إذا كان هناك خطأ، إظهار رسالة تنبيه
-        } else {
-            alert(data.message); // إظهار رسالة النجاح
-            
+        alert(data.message); // عرض الرسالة للمستخدم
+
+        if (data.status === "success") {
             // إضافة التقييم إلى الجدول داخل الصفحة
             let reviewTableBody = document.getElementById("reviewTableBody");
             let newRow = reviewTableBody.insertRow();
@@ -161,6 +159,7 @@ function submitReview() {
     })
     .catch(error => console.log("⚠️ خطأ:", error));
 }
+
 
 
     </script>
