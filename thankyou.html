@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>شكرًا لك!</title>
+
+    <!-- استيراد Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+        background-color: #f8f9fa;
+      }
+      h2 {
+        color: #28a745;
+      }
+      #points {
+        font-size: 24px;
+        font-weight: bold;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🎉 شكرًا لك على تقييمك! 🎉</h2>
+    <p>عدد النقاط التي جمعتها حتى الآن:</p>
+    <p id="points">... جاري التحميل ...</p>
+
+    <!-- مكتبة تأثير الشرائط المتناثرة -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.0.2"></script>
+
+    <script>
+      // 🔹 إعداد Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyB93ZciUCCEF7-lUIMoI0narSUabnpnrkE",
+        authDomain: "test-65ba0.firebaseapp.com",
+        projectId: "test-65ba0",
+        storageBucket: "test-65ba0.firebasestorage.app",
+        messagingSenderId: "556279260023",
+        appId: "1:556279260023:web:4924762ba1d91a5fa2f772",
+      };
+
+      // 🔹 تهيئة Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      // 🟢 استخراج رقم الهاتف من الرابط
+      const urlParams = new URLSearchParams(window.location.search);
+      const phone = urlParams.get("phone");
+
+      if (phone) {
+        const userRef = db.collection("feedback").doc(phone);
+        userRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              document.getElementById("points").textContent = doc.data().points;
+            } else {
+              document.getElementById("points").textContent = "لا توجد بيانات!";
+            }
+          })
+          .catch((error) => {
+            console.error("خطأ أثناء جلب النقاط:", error);
+          });
+
+        // 🎉 تأثير الشرائط المتناثرة (يتكرر مرتين)
+        function launchConfetti() {
+          confetti({ particleCount: 100, spread: 70 });
+          setTimeout(() => confetti({ particleCount: 100, spread: 70 }), 1000);
+        }
+        launchConfetti();
+      }
+    </script>
+  </body>
+</html>
