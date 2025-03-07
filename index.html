@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج تت</title>
+    <title>نموذج قققق</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,30 +60,36 @@
 
    <script>
     function submitFeedback() {
-        const phone = document.getElementById("phone").value;
-        const rating = document.getElementById("rating").value;
-        const suggestion = document.getElementById("suggestion").value;
-        
-        if (!phone || !rating) {
-            alert("يرجى إدخال رقم الهاتف والتقييم");
-            return;
-        }
-
-        fetch('https://script.google.com/macros/s/AKfycbzEQt_S3YUlAulc8doMeo15h9m2ypNrgcwUUFQFavGvNojDxyMvA5IQkz4yeGrunTOHIw/exec', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone, rating, suggestion })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert("تم إرسال التقييم بنجاح!");
-            } else {
-                alert("لا يمكنك التقييم أكثر من مرة يوميًا");
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    const phone = document.getElementById("phone").value;
+    const rating = document.getElementById("rating").value;
+    const suggestion = document.getElementById("suggestion").value;
+    
+    if (!phone || !rating) {
+        alert("يرجى إدخال رقم الهاتف والتقييم");
+        return;
     }
+
+    fetch('https://script.google.com/macros/s/AKfycbzEQt_S3YUlAulc8doMeo15h9m2ypNrgcwUUFQFavGvNojDxyMvA5IQkz4yeGrunTOHIw/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, rating, suggestion })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("خطأ في الاستجابة من السيرفر");
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            alert("تم إرسال التقييم بنجاح!");
+        } else {
+            alert("لا يمكنك التقييم أكثر من مرة يوميًا");
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 </script>
 
 </body>
