@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة التقييم</title>
+    <title>صفحة الخقييم</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,7 +62,7 @@
             });
         });
 
-      function submitFeedback() {
+     function submitFeedback() {
     const phone = document.getElementById('phone').value;
     const suggestion = document.getElementById('suggestion').value;
     const timestamp = new Date().toISOString();
@@ -78,13 +78,14 @@
     formData.append("suggestion", suggestion);
     formData.append("timestamp", timestamp);
 
-    fetch("https://script.google.com/macros/s/AKfycbyUiIAEOG9fHPkkWedROUGMDr43tkTGhWKOwItEE5iHh_PaEsE7vmJRBZp9ScRKxS5H/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbxGyznurHSMNtzzNEN50szWxKbD8LDo6WmNtRPKA9r0zfjMwN3ePTc3Ovgk98SarExx/exec", {
         method: "POST",
-        body: formData
+        body: formData,
+        mode: "cors" // إضافة دعم CORS
     })
     .then(response => response.text())
     .then(data => {
-        alert(data); // يعرض إما "✅ تم إرسال التقييم بنجاح!" أو "❌ لا يمكنك التقييم أكثر من مرة في اليوم!"
+        alert(data);
         if (data.includes("تم إرسال التقييم")) {
             document.getElementById('phone').value = "";
             document.getElementById('suggestion').value = "";
@@ -94,6 +95,7 @@
     })
     .catch(error => console.error("⚠️ خطأ:", error));
 }
+
 
     </script>
 
